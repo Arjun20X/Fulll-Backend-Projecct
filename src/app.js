@@ -34,4 +34,17 @@ app.use(express.static("public"))
 app.use(cookieParser());
 
 
+// routes import
+import userRouter from './routes/user.routes.js'
+
+// routes declaration
+app.use("/api/v1/users", userRouter)
+// http://localhost:8000/api/v1/users/register  (this is how the complete url will look like)
+// with /user the control will first go to the userRouter and then 
+// there it will check if there is any route /register then it will call
+//  the controller attached to that route
+
+
+
+
 export {app}

@@ -53,6 +53,12 @@ const userSchema = new Schema(
 // this is a hook...it is hashing the password when a 
 // "save" event is launched
 //  pre() hook is used to have access to all the elements of the schema
+
+// This is a Mongoose middleware function — specifically a “pre-save hook”.
+// It runs before saving a user document to the database.
+// Why?
+// Because we want to hash (encrypt) the password before storing it, so no 
+// one (not even the developer or database admin) can see the original password.
 userSchema.pre("save", async function(next) {
     if(!this.isModfied("password")) return next();
 

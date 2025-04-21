@@ -1,4 +1,7 @@
 import mongoose, {Scehma, Schema} from "mongoose";
+
+// It’s a Mongoose plugin that adds a method to you
+// model to allow pagination on aggregation queries.
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const videoSchema = new Schema(
@@ -42,7 +45,10 @@ const videoSchema = new Schema(
 
 // this is a plugin
 // A plugin is a piece of code which adds a feature on top of a method or function
-videoSchema.plugin(mongooseAggregatePaginate)
 
+/*Imagine you have thousands of video documents, and you're running a complex aggregation (e.g., getting videos by category, likes, views, etc.) — but you only want 10 results per page.
+Without pagination:
+You'd load everything — which is slow and memory-heavy. 🐢
+videoSchema.plugin(mongooseAggregatePaginate)*/
 
 export const Video  = mongoose.model("Video", videoSchema);
