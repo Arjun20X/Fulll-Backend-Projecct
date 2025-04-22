@@ -9,15 +9,16 @@ import { response } from "express";
 const registerUser = asyncHandler(async (req,res) => {
   // STEP-1 => get user details from frontend(kya kya detail lenin h vo schema se dekho)
   const { username, fullname, email, password } = req.body;
-  console.log("email : ", email);
+//   console.log("Printing Body : ", req.body);
+//   console.log("email : ", email);
 
   // STEP-2 => validation of details (like non-empty)
-  if ([fullname, email, username, password].some(() => field?.trim() === "")) {
+  if ([fullname, email, username, password].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All fields are reuired");
   }
 
   // STEP-3 => check if user already exist (by username or email)
-  const existedUser = User.findOne({
+  const existedUser =  await User.findOne({
     $or: [{ username }, { email }],
   });
 
@@ -27,7 +28,14 @@ const registerUser = asyncHandler(async (req,res) => {
 
   // STEP-4 => check for images, check for avatar
   const avatarLocalPath = req.files?.avatar[0]?.path;
-  const coverImageLocalPath = req.field?.coverImage[0]?.path;
+//   console.log("Printing files : ", req.files);
+//   const coverImageLocalPath = req.files?.coverImage[0]?.path;
+
+  let coverImageLocalPath;
+  
+  if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0){
+    coverImageLocalPath = req.files.coverImage[0].path
+  }
 
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar file is required");
