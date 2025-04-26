@@ -129,6 +129,8 @@ const loginUser = asyncHandler(async (req,res) => {
   const loggedInUser = await User.findById(user._id).
   select("-password -refreshToken")
 
+
+  // required for sending cookies
   const options = {
     httpOnly: true,
     secure : true,
@@ -180,7 +182,7 @@ const logoutUser = asyncHandler(async (req,res) => {
 const refreshAccessToken = asyncHandler(async (req,res) => {
   const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
 
-  if(incomingRefreshToken){
+  if(!incomingRefreshToken){
     throw new ApiError(402, "Unauthorized request")
   }
 
