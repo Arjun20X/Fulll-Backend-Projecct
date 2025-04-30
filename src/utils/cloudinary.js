@@ -28,6 +28,28 @@ import fs from "fs";
       }
     };
 
+    const getPublicId = (url) => {
+      const urlParts = url.split('/');
+      const fileName = urlParts[urlParts.length - 1];
+      const publicId = fileName.split('.')[0];
+      return publicId;
+    }
 
-export {uploadOnCloudinary}
+    const deleteOnCloudinary = async (oldURL) => {
+        const publicId = getPublicId(oldImageUrl);
+
+      try{
+        const result = cloudinary.uploader.destroy(publicId);
+        console.log("Image deleted successfully : " , result);
+      }
+      catch(error){
+        console.error("Error deleting image : ", error.message);
+      }
+    }
+
+
+export {
+  uploadOnCloudinary,
+  deleteOnCloudinary
+}
   
